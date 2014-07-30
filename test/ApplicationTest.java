@@ -1,43 +1,50 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
+import org.junit.Test;
+import play.mvc.Result;
+import play.test.FakeRequest;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.junit.*;
-
-import play.mvc.*;
-import play.test.*;
-import play.data.DynamicForm;
-import play.data.validation.ValidationError;
-import play.data.validation.Constraints.RequiredValidator;
-import play.i18n.Lang;
-import play.libs.F;
-import play.libs.F.*;
-import play.twirl.api.Content;
-
+import static org.fest.assertions.Assertions.assertThat;
+import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
 
-
-/**
-*
-* Simple (JUnit) tests that can call all parts of a play app.
-* If you are interested in mocking a whole application, see the wiki for more details.
-*
-*/
 public class ApplicationTest {
 
     @Test
-    public void simpleCheck() {
-        int a = 1 + 1;
-        assertThat(a).isEqualTo(2);
+    public void callIndex() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+
+                Result result = callAction(controllers.routes.ref.Application.index());
+                assertThat(status(result)).isEqualTo(OK);
+                assertThat(contentType(result)).isEqualTo("text/html");
+                assertThat(charset(result)).isEqualTo("utf-8");
+                assertThat(contentAsString(result)).contains("My Form");
+
+            }
+        });
+    }
+
+
+    @Test
+    public void callSubmit() {
+
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Result result = callAction(controllers.routes.ref.Application.submit(), new FakeRequest().withFormUrlEncodedBody(ImmutableMap.of("imie", "asd", "nazwisko", "bbb", "data", "2014-10-23", "email", "sa@fsa.pl", "database", "1")));
+                assertThat(status(result)).isEqualTo(OK);
+                assertThat(contentAsString(result)).contains("Entry added to database:");
+            }
+        });
     }
 
     @Test
-    public void renderTemplate() {
+    public void callBadSubmit() {
 
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Result result = callAction(controllers.routes.ref.Application.submit(), new FakeRequest().withFormUrlEncodedBody(ImmutableMap.of("imie", "asd", "nazwisko", "bbb", "data", "201410-23", "email", "safsa.pl", "database", "1")));
+                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+            }
+        });
     }
-
-
 }

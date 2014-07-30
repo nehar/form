@@ -13,20 +13,25 @@ public class Entry {
     private int id;
     @Required
     @MaxLength(100)
+    @Column(length=100)
     String imie;
     @Required
     @MaxLength(100)
+    @Column(length=100)
     String nazwisko;
     @Required
     Date data;
     @Required
     @Email
+    @MaxLength(200)
+    @Column(length=200)
     String email;
     @Required
     @Min(1)
     @Max(4)
     int database;
     @MaxLength(5000)
+    @Column(length=5000)
     String notatki;
 
     public int getId() {
