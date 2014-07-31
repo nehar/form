@@ -6,6 +6,8 @@ import play.test.FakeRequest;
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class ApplicationTest {
 
@@ -28,9 +30,9 @@ public class ApplicationTest {
     @Test
     public void callSubmit() {
 
-        running(fakeApplication(), new Runnable() {
+        running(fakeApplication(inMemoryDatabase()), new Runnable() {
             public void run() {
-                Result result = callAction(controllers.routes.ref.Application.submit(), new FakeRequest().withFormUrlEncodedBody(ImmutableMap.of("imie", "asd", "nazwisko", "bbb", "data", "2014-10-23", "email", "sa@fsa.pl", "database", "1")));
+                Result result = callAction(controllers.routes.ref.Application.submit(), new FakeRequest().withFormUrlEncodedBody(ImmutableMap.of("imie", "aaaaab", "nazwisko", "bbb", "data", "2014-10-23", "email", "sa@fsa.pl", "database", "1")));
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentAsString(result)).contains("Entry added to database:");
             }
