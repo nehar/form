@@ -2,13 +2,20 @@
 @import helper._
 @import helper.twitterBootstrap._
 @main("Form") {
-    @form(action = routes.Application.submit(), 'id -> "entryForm"){
-        @inputText(entryForm("imie"), '_label -> "Imię:")
-        @inputText(entryForm("nazwisko"), '_label -> "Nazwisko:")
-        @inputDate(entryForm("data"), '_label -> "Data urodzenia:")
-        @inputText(entryForm("email"), '_label -> "Email:")
-        @select(entryForm("database"), options = Seq("1"->"PostgreSQL", "2"->"MySql", "3"->"Oracle", "4"->"MsSql"), '_label -> "Twoja ulubiona baza SQL:")
-        @textarea(entryForm("notatki"), args = 'rows -> 3, 'cols -> 50, '_label -> "Notatki do zgłoszenia:")
+    @form(action = routes.Application.submit(), 'id -> "entryForm", 'class -> "form"){
+<div class="form-group">
+        @inputText(entryForm("imie"), '_label -> "Imię:", 'class -> "form-control")
+    </div><div class="form-group">
+        @inputText(entryForm("nazwisko"), '_label -> "Nazwisko:", 'class -> "form-control")
+</div><div class="form-group">
+        @inputDate(entryForm("data"), '_label -> "Data urodzenia:", 'class -> "form-control")
+</div><div class="form-group">
+        @inputText(entryForm("email"), '_label -> "Email:", 'class -> "form-control")
+</div><div class="form-group">
+        @select(entryForm("database"), options = Seq("1"->"PostgreSQL", "2"->"MySql", "3"->"Oracle", "4"->"MsSql"), '_label -> "Twoja ulubiona baza SQL:", 'class -> "form-control")
+</div><div class="form-group">
+        @textarea(entryForm("notatki"), args = 'rows -> 3, 'cols -> 50, '_label -> "Notatki do zgłoszenia:", 'class -> "form-control")
+</div>
         <input type="submit" class="btn primary" value="Wyślij">
     }
 }
