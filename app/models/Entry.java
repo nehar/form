@@ -1,8 +1,8 @@
 package models;
 
-import play.db.jpa.JPA;
 import javax.persistence.*;
 import java.util.Date;
+
 import static play.data.validation.Constraints.*;
 
 @Entity
@@ -88,8 +88,5 @@ public class Entry {
 
     public void setNotatki(String notatki) {
         this.notatki = notatki;
-    }
-    public void save(){
-        JPA.em().persist(this);
     }
 }
